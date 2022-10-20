@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Player</title>
-</head>
-<body>
-    <h1>Welcome to dashboard</h1>
-</body>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body class="h-screen bg-black text-primary">
+    <main
+      class="grid-template-areas grid h-full grid-cols-[250px_1fr] grid-rows-[1fr_auto]"
+    >
+      <aside class="sidenav">sidenav</aside>
+      <section class="content">
+        <header class="border-2 px-8 py-4">
+          <nav class="flex justify-end">
+            <button
+              id="user-profile-buttoon"
+              class="gap--2 flex items-center rounded-full hover:bg-light-black"
+            >
+              <section>
+                <svg
+                  id="default-image"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-8 w-8 rounded-full bg-gray"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </section>
+              <section
+                id="display-name"
+                class="flex justify-center gap-2 px-2 py-1"
+              >
+                <h3>Shashank</h3>
+                <i> ▼ </i>
+              </section>
+            </button>
+          </nav>
+        </header>
+        content
+      </section>
+      <footer class="now-playing">now playing</footer>
+    </main>
+  </body>
 </html>
