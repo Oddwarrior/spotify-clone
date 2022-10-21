@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Player</title>
     <link rel="stylesheet" href="../style.css" />
+    <script type="module" src="dashboard.js"></script>
   </head>
   <body class="h-screen bg-black text-primary">
     <main
@@ -36,17 +37,25 @@
                   />
                 </svg>
               </section>
-              <section
-                id="display-name"
-                class="flex justify-center gap-1 px-2 py-1"
-              >
-                <h3>Shashank</h3>
+              <section class="flex justify-center gap-1 px-2 py-1">
+                <h3 id="display-name">dummy name</h3>
                 <i> ▼ </i>
               </section>
             </button>
+            <ul
+              id="profile-menu"
+              class="absolute top-12 m-1 hidden w-[200px] rounded-md bg-light-black p-1"
+            >
+              <li
+                class="w-full cursor-pointer rounded-sm p-2 hover:bg-gray"
+                id="logout"
+              >
+                Logout
+              </li>
+            </ul>
           </nav>
         </header>
-        content
+        <section>content</section>
       </section>
       <footer class="now-playing">now playing</footer>
     </main>
