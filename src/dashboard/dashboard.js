@@ -7,7 +7,7 @@ const onProfileClick = (event) => {
     profileMenu.classList.toggle("hidden");
 
     if (!profileMenu.classList.contains("hidden")) {
-        profileMenu.querySelector("#logout").addEventListener("click", logout);
+        profileMenu.querySelector("li#logout").addEventListener("click", logout);
     } else {
 
     }
@@ -33,8 +33,36 @@ const loadUserProfile = async () => {
 
 }
 
+const onPlaylistItemClicked = (event) => {
+    console.log(event.target);
+}
+
+const loadFeaturedPlaylist = async () => {
+    const playListItemsSection = document.querySelector("#featured-playlist")
+    const { playlists: { items } } = await fetchRequest(ENDPOINT.featuredPlaylist);
+    for (let { name, description, images, id } of items) {
+
+        const playListItem = document.createElement("section");
+        playListItem.className = "rounded border p-4 hover:cursor-pointer";
+        playListItem.id = id;
+        playListItem.addEventListener("click", onPlaylistItemClicked);
+        playListItem.setAttribute("data-type", "playlist");
+        const [{ url: imageUrl }] = images;
+        playListItem.innerHTML = `<img src= "${imageUrl}"
+                alt="${name}"
+                class="rounded mb-2 object-contain shadow"
+              />
+              <h2 class="text-sm">${name}</h2>
+              <h3 class="text-xs">${description}</h3>`
+        playListItemsSection.appendChild(playListItem);
+    }
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
+    loadFeaturedPlaylist();
+
     document.addEventListener("click", () => {
         const profileMenu = document.querySelector("#profile-menu");
         if (!profileMenu.classList.contains("hidden")) {
