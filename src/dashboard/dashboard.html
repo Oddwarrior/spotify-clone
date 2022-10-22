@@ -18,7 +18,7 @@
           <nav class="flex justify-end">
             <button
               id="user-profile-buttoon"
-              class="gap--2 flex items-center rounded-full hover:bg-light-black"
+              class="gap--2 flex items-center rounded-full bg-black-secondary hover:bg-light-black"
             >
               <section>
                 <svg
@@ -28,7 +28,7 @@
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="h-8 w-8 rounded-full bg-gray"
+                  class="h-6 w-6 rounded-full bg-gray"
                 >
                   <path
                     stroke-linecap="round"
@@ -36,10 +36,16 @@
                     d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
+                <img
+                  src=""
+                  alt="profile picture"
+                  class="m-1 h-6 w-6 rounded-full"
+                  id="profile-image"
+                />
               </section>
               <section class="flex justify-center gap-1 px-2 py-1">
-                <h3 id="display-name">dummy name</h3>
-                <i> ▼ </i>
+                <h3 id="display-name" class="text-sm font-semibold">name</h3>
+                <i class="text-sm"> ▼ </i>
               </section>
             </button>
             <ul
@@ -47,7 +53,7 @@
               class="absolute top-12 m-1 hidden w-[200px] rounded-md bg-light-black p-1"
             >
               <li
-                class="w-full cursor-pointer rounded-sm p-2 hover:bg-gray"
+                class="w-full cursor-pointer rounded-sm p-2 text-sm duration-300 hover:bg-gray"
                 id="logout"
               >
                 Logout

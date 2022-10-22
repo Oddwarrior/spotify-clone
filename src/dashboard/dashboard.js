@@ -14,6 +14,7 @@ const onProfileClick = (event) => {
 }
 
 const loadUserProfile = async () => {
+    const profileImage = document.querySelector("#profile-image");
     const defaultImage = document.querySelector("#default-image");
     const profileButton = document.querySelector("#user-profile-buttoon");
     const displayNameElement = document.querySelector("#display-name");
@@ -21,10 +22,13 @@ const loadUserProfile = async () => {
     const { display_name: displayName, images } = await fetchRequest(ENDPOINT.userInfo);
     if (images?.length) {
         defaultImage.classList.add("hidden");
-
+        ;
+        const [{ url: imageUrl }] = images;
+        profileImage.setAttribute("src", `${imageUrl}`);
     }
     else {
         defaultImage.classList.remove("hidden");
+        profileImage.classList.add("hidden");
     }
 
     profileButton.addEventListener("click", onProfileClick)
