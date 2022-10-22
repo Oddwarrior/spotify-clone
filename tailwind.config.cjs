@@ -5,7 +5,6 @@ module.exports = {
     extend: {
       colors: {
         "green": "#1db954",
-        "black-base": "#121212",
         "light-black": "#282828",
         "black-base": "#121212",
         "black-primary": "#191414",
@@ -20,5 +19,5 @@ module.exports = {
       "auto-fill-cards": "repeat(auto-fill, minmax(200px ,1fr))"
     }
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp'),],
 }
