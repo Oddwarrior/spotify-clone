@@ -13,8 +13,8 @@
       class="grid-template-areas grid h-full grid-cols-[250px_1fr] grid-rows-[1fr_auto]"
     >
       <aside class="sidenav">sidenav</aside>
-      <article class="content bg-black-base">
-        <header class="border-2 bg-transparent px-8 py-4">
+      <article class="content relative overflow-auto bg-transparent">
+        <header class="header bg-transparent px-8 py-4">
           <nav class="flex justify-end">
             <button
               id="user-profile-buttoon"
@@ -56,7 +56,14 @@
           </nav>
         </header>
 
-        <section id="page-content"></section>
+        <article
+          id="cover-content"
+          class="absolute top-0 -z-[1] grid h-72 w-full content-center bg-gradient-to-b from-light-black to-black-base p-4 px-8"
+        >
+          <h1 class="text-6xl font-semibold">Good Morning</h1>
+        </article>
+
+        <section id="page-content" class="mt-48 bg-black-base"></section>
       </article>
       <footer class="now-playing">now playing</footer>
     </main>
