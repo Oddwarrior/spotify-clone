@@ -1,3 +1,4 @@
+import { doc } from "prettier";
 import { fetchRequest } from "../api";
 import { ENDPOINT, logout, SECTIONTYPE } from "../common";
 
@@ -101,6 +102,18 @@ const formatTime = (duration) => {
     return formattedTime;
 }
 
+const onTrackSelection = (id, event) => {
+    document.querySelectorAll("#tracks .track").forEach(trackItem => {
+        if (trackItem.id == id) {
+            trackItem.classList.add("bg-gray", "selected");
+        }
+        else {
+            trackItem.classList.remove("bg-gray", "selected");
+        }
+    })
+
+}
+
 //tracks loader
 const loadPlaylistTracks = ({ tracks }) => {
     const trackSections = document.querySelector("#tracks");
@@ -110,19 +123,29 @@ const loadPlaylistTracks = ({ tracks }) => {
         let { id, artists, name, album, duration_ms: duration } = trackItem.track;
         let track = document.createElement("section");
         track.id = id;
-        track.className = "mt-2 p-1 track grid grid-cols-[50px_1fr_1fr_50px] items-center justify-items-start gap-4 rounded-md text-secondary duration-200 hover:bg-light-black"
+        track.className = " mt-2 p-1 track grid grid-cols-[50px_1fr_1fr_50px] items-center justify-items-start gap-4 rounded-md text-secondary duration-200 hover:bg-light-black"
         let image = album.images.find(img => img.height === 64);
-        track.innerHTML = `<p class="justify-self-center">${trackNum++}</p>
+        track.innerHTML = `<p  class=" relative w-full flex justify-center items-center justify-self-center "><span class="track-no">${trackNum++}</span></p>
               <section class="grid grid-flow-col gap-2 place-items-center">
                 <img class="h-10 w-10 " src="${image.url}" alt="${name}" />
-                <article class="flex flex-col gap-1 px-2">
-                  <h2 class="text-sm text-primary font-semibold">${name}</h2>
-                  <p class="text-xs text-secondary">${Array.from(artists, artist => artist.name).join(", ")}</p>
+                <article class="flex flex-col gap-1 px-2 justify-center">
+                  <h2 class="text-sm text-primary font-semibold line-clamp-1">${name}</h2>
+                  <p class="text-xs text-secondary line-clamp-1 ">${Array.from(artists, artist => artist.name).join(", ")}</p>
                 </article>
               </section>
               <p class="text-sm">${album.name}</p>
               <p  class="text-sm">${formatTime(duration)}</p>`;
 
+        track.addEventListener("click", (event) => onTrackSelection(id, event));
+
+        const playButton = document.createElement("button");
+        playButton.id = `play-track${id}`;
+        playButton.className = ` `
+        playButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class= "invisible  w-4 h-4 play w-full absolute  left-4 top-1">
+  <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+</svg>
+`
+        track.querySelector("p").appendChild(playButton);
         trackSections.appendChild(track);
     }
 

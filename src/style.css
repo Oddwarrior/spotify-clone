@@ -19,3 +19,13 @@
 .grid-template-areas .now-playing {
     grid-area: now-playing;
 }
+
+.track:hover .track-no,
+.track.selected .track-no {
+    visibility: hidden;
+}
+
+.track:hover .play,
+.track.track.selected .play {
+    visibility: visible;
+}
