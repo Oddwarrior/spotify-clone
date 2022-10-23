@@ -19,5 +19,5 @@ module.exports = {
       "auto-fill-cards": "repeat(auto-fill, minmax(200px ,1fr))"
     }
   },
-  plugins: [require('@tailwindcss/line-clamp'),],
+  plugins: [require('@tailwindcss/line-clamp'),]
 }

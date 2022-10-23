@@ -29,3 +29,4 @@ export const fetchRequest = async (endpoint) => {
     const result = await fetch(url, createAPIConfig(getAccesToken()));
     return result.json();
 }
+

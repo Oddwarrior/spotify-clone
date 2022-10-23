@@ -28,7 +28,7 @@
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="h-6 w-6 rounded-full bg-gray"
+                  class="m1 h-6 w-6 rounded-full bg-gray"
                 >
                   <path
                     stroke-linecap="round"
@@ -69,7 +69,36 @@
           <h1 class="text-6xl font-semibold">Good Morning</h1>
         </article>
 
-        <section id="page-content" class="mt-48 bg-black-base"></section>
+        <section id="page-content" class="mt-48 bg-black-base">
+          <header class="px-8">
+            <nav>
+              <ul
+                class="grid grid-cols-[50px_2fr_1fr_50px] gap-4 text-secondary"
+              >
+                <li class="justify-self-center">#</li>
+                <li>Title</li>
+                <li>Album</li>
+                <li>🕐</li>
+              </ul>
+            </nav>
+          </header>
+          <section class="px-8" id="tracks">
+            <section
+              class="track grid grid-cols-[50px_2fr_1fr_50px] items-center justify-items-start gap-4 rounded-md text-secondary duration-200 hover:bg-light-black"
+            >
+              <p class="justify-self-center">1</p>
+              <section class="grid grid-flow-col gap-2">
+                <img class="h-8 w-8" src="" alt="" />
+                <article class="flex flex-col gap-1">
+                  <h2 class="text-xl text-primary">Song</h2>
+                  <p class="text-sm">artists</p>
+                </article>
+              </section>
+              <p>album</p>
+              <p>1.56</p>
+            </section>
+          </section>
+        </section>
       </article>
       <footer class="now-playing">now playing</footer>
     </main>
