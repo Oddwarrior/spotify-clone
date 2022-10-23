@@ -110,14 +110,14 @@ const loadPlaylistTracks = ({ tracks }) => {
         let { id, artists, name, album, duration_ms: duration } = trackItem.track;
         let track = document.createElement("section");
         track.id = id;
-        track.className = " p-1 track grid grid-cols-[50px_2fr_1fr_50px] items-center justify-items-start gap-4 rounded-md text-secondary duration-200 hover:bg-light-black"
+        track.className = "mt-2 p-1 track grid grid-cols-[50px_1fr_1fr_50px] items-center justify-items-start gap-4 rounded-md text-secondary duration-200 hover:bg-light-black"
         let image = album.images.find(img => img.height === 64);
         track.innerHTML = `<p class="justify-self-center">${trackNum++}</p>
               <section class="grid grid-flow-col gap-2 place-items-center">
                 <img class="h-10 w-10 " src="${image.url}" alt="${name}" />
                 <article class="flex flex-col gap-1 px-2">
                   <h2 class="text-sm text-primary font-semibold">${name}</h2>
-                  <p class="text-sm text-secondary">${Array.from(artists, artist => artist.name).join(", ")}</p>
+                  <p class="text-xs text-secondary">${Array.from(artists, artist => artist.name).join(", ")}</p>
                 </article>
               </section>
               <p class="text-sm">${album.name}</p>
@@ -132,10 +132,10 @@ const fillContentForPlaylist = async (playlistId) => {
     const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
     console.log(playlist);
     const pageContent = document.querySelector("#page-content");
-    pageContent.innerHTML = `<header class="px-8">
-            <nav>
+    pageContent.innerHTML = `<header id="playlist-header" class="mx-8 py-2  border-b-[0.3px] border-secondary border-opacity-30 duration-100 ">
+            <nav class= "py-2">
               <ul
-                class="grid grid-cols-[50px_2fr_1fr_50px] gap-4 text-secondary"
+                class=" text-sm uppercase grid grid-cols-[50px_1fr_1fr_50px] gap-4 text-secondary"
               >
                 <li class="justify-self-center">#</li>
                 <li>Title</li>
@@ -144,7 +144,7 @@ const fillContentForPlaylist = async (playlistId) => {
               </ul>
             </nav>
           </header>
-          <section class="px-8" id="tracks">
+          <section class="px-8 mt-4" id="tracks">
           
           </section>`
 
@@ -153,6 +153,36 @@ const fillContentForPlaylist = async (playlistId) => {
 
 }
 
+// scrolling handler
+const onContentScroll = (event) => {
+    const { scrollTop } = event.target;
+    const header = document.querySelector(".header");
+
+    if (scrollTop >= header.offsetHeight) {
+        header.classList.add("sticky", "top-0", "bg-black");
+        header.classList.remove("bg-transperent");
+
+    } else {
+        header.classList.remove("sticky", "top-0", "bg-black");
+        header.classList.add("bg-transperent");
+
+    }
+    if (history.state.type === SECTIONTYPE.PLAYLIST) {
+        const coverElement = document.querySelector("#cover-content");
+        const playlistHeader = document.querySelector("#playlist-header");
+        if (scrollTop >= (coverElement.offsetHeight - header.offsetHeight)) {
+            playlistHeader.classList.add("sticky", "bg-black-secondary", "px-8");
+            playlistHeader.classList.remove("mx-8");
+            playlistHeader.style.top = `${header.offsetHeight - 1}px`
+        }
+        else {
+            playlistHeader.classList.remove("sticky", "bg-black-secondary", "px-8");
+            playlistHeader.classList.add("mx-8");
+            playlistHeader.style.top = `revert`;
+        }
+    }
+
+}
 const loadSection = (section) => {
     if (section.type == SECTIONTYPE.DASHBOARD) {
         fillContentForDashboard();
@@ -162,13 +192,16 @@ const loadSection = (section) => {
         fillContentForPlaylist(section.playlist);
 
     }
+    document.querySelector(".content").removeEventListener("scroll", onContentScroll)
+    document.querySelector(".content").addEventListener("scroll", onContentScroll)
 }
 
 //main function
 document.addEventListener("DOMContentLoaded", () => {
     loadUserProfile();
-    const section = { type: SECTIONTYPE.DASHBOARD };
-    history.pushState(section, "", "");
+    // const section = { type: SECTIONTYPE.DASHBOARD };
+    const section = { type: SECTIONTYPE.PLAYLIST, playlist: "37i9dQZF1DX4dyzvuaRJ0n" }
+    history.pushState(section, "", `/dashboard/playlist/${section.playlist}`);
     loadSection(section);
     // fillContentForDashboard();
     // loadPlaylists();
@@ -180,20 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-    document.querySelector(".content").addEventListener("scroll", (event) => {
-        const { scrollTop } = event.target;
-        const header = document.querySelector(".header");
 
-        if (scrollTop >= header.offsetHeight) {
-            header.classList.add("sticky", "top-0", "bg-black-secondary");
-            header.classList.remove("bg-transperent");
-
-        } else {
-            header.classList.remove("sticky", "top-0", "bg-black-secondary");
-            header.classList.add("bg-transperent");
-
-        }
-    })
 
     window.addEventListener("popstate", (event) => {
         loadSection(event.state);
