@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Player</title>
     <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
     <script type="module" src="dashboard.js"></script>
   </head>
   <body class="h-screen bg-black text-primary">
@@ -14,7 +22,7 @@
     >
       <aside class="sidenav">sidenav</aside>
       <article class="content relative overflow-auto bg-transparent">
-        <header class="header px-8 py-4">
+        <header class="header z-[10] px-8 py-4">
           <nav class="flex justify-end">
             <button
               id="user-profile-buttoon"
@@ -85,7 +93,78 @@
           <section class="px-8" id="tracks"></section>
         </section>
       </article>
-      <footer class="now-playing">now playing</footer>
+      <footer
+        class="now-playing border-t border-t-light-black bg-black-secondary px-4 text-secondary"
+      >
+        <section class="line grid grid-cols-[1fr_2fr_1fr] gap-4">
+          <section class="grid grid-cols-[auto_1fr] place-content-center gap-4">
+            <img id="now-playing-image" class="h-12 w-12" src="" alt="" />
+            <section class="flex flex-col justify-center">
+              <h2
+                id="now-playing-song"
+                class="te text-sm font-semibold text-primary line-clamp-1"
+              >
+                song title
+              </h2>
+              <p id="now-playing-artists" class="text-xs">song artists</p>
+            </section>
+          </section>
+          <!-- section for audio control -->
+          <section
+            id="audio-control"
+            class="flex flex-col items-center justify-center"
+          >
+            <section
+              class="flex items-baseline justify-center gap-2 hover:text-primary"
+            >
+              <button id="shuffle">
+                <span class="material-symbols-rounded"> shuffle </span>
+              </button>
+              <button id="prev">
+                <span class="material-symbols-outlined"> skip_previous </span>
+              </button>
+              <button id="play">
+                <span
+                  class="material-symbols-outlined relative top-2 align-baseline"
+                  style="font-size: 40px"
+                >
+                  play_circle
+                </span>
+              </button>
+              <button id="next">
+                <span class="material-symbols-outlined"> skip_next </span>
+              </button>
+              <button id="repeat">
+                <span class="material-symbols-outlined"> repeat </span>
+              </button>
+            </section>
+            <section class="flex w-full items-center justify-center gap-4 p-1">
+              <span id="song-duration-completed">0.00</span>
+              <section
+                id="progress"
+                class="h-1 w-full cursor-pointer rounded-3xl bg-secondary"
+              ></section>
+              <span id="total-song-completed">0.00</span>
+            </section>
+          </section>
+          <!-- section for volume -->
+          <section
+            id="volume-control"
+            class="flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-rounded"> volume_up </span>
+            <input
+              id="volume"
+              type="range"
+              name=""
+              class=""
+              value="100"
+              min="0"
+              max="100"
+            />
+          </section>
+        </section>
+      </footer>
     </main>
   </body>
 </html>
