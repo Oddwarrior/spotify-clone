@@ -29,3 +29,13 @@
 .track.track.selected .play {
     visibility: visible;
 }
+
+.banner-grad-pink {
+    background: rgb(210, 88, 244);
+    background: linear-gradient(180deg, rgba(210, 88, 244, 1) 0%, rgba(18, 17, 18, 0.9196720924698004) 78%, rgba(18, 18, 18, 0.9308765742625175) 100%);
+}
+
+.banner-grad-cyan {
+    background: rgb(88, 223, 244);
+    background: linear-gradient(180deg, rgba(88, 223, 244, 1) 0%, rgba(18, 17, 18, 0.9196720924698004) 78%, rgba(18, 18, 18, 0.9308765742625175) 100%);
+}

@@ -72,9 +72,19 @@
 
         <article
           id="cover-content"
-          class="absolute top-0 -z-[1] grid h-72 w-full content-center bg-gradient-to-b from-light-black to-black-base p-4 px-8"
+          class="absolute top-0 -z-[1] grid h-72 w-full grid-cols-[auto_1fr] content-center bg-gradient-to-b from-light-black to-black-base p-4 px-8"
         >
-          <h1 class="text-6xl font-semibold">Good Morning</h1>
+          <!-- <h1 class="text-6xl font-semibold">Good Morning</h1> -->
+          <section class="">
+            <img
+              src=""
+              alt="banner image"
+              class="grid-flow-col-[auto-1fr] grid"
+            />
+            <h2 class="text-4xl" id="playlist-name">title</h2>
+            <p id="playlist-items"></p>
+            <p id="playlis-details"></p>
+          </section>
         </article>
 
         <section id="page-content" class="mt-48 bg-black-base">
@@ -94,9 +104,10 @@
         </section>
       </article>
       <footer
-        class="now-playing border-t border-t-light-black bg-black-secondary px-4 text-secondary"
+        class="now-playing border-t border-t-light-black bg-black-secondary px-4 pb-2 text-secondary"
       >
         <section class="line grid grid-cols-[1fr_2fr_1fr] gap-4">
+          <!-- section for now playing somg title -->
           <section class="grid grid-cols-[auto_1fr] place-content-center gap-4">
             <img id="now-playing-image" class="h-12 w-12" src="" alt="" />
             <section class="flex flex-col justify-center">
@@ -106,7 +117,9 @@
               >
                 song title
               </h2>
-              <p id="now-playing-artists" class="text-xs">song artists</p>
+              <p id="now-playing-artists" class="text-xs line-clamp-1">
+                song artists
+              </p>
             </section>
           </section>
           <!-- section for audio control -->
@@ -115,7 +128,7 @@
             class="flex flex-col items-center justify-center"
           >
             <section
-              class="flex items-baseline justify-center gap-2 hover:text-primary"
+              class="flex items-baseline justify-center gap-4 hover:text-primary"
             >
               <button id="shuffle">
                 <span class="material-symbols-rounded"> shuffle </span>
@@ -125,7 +138,7 @@
               </button>
               <button id="play">
                 <span
-                  class="material-symbols-outlined relative top-2 align-baseline"
+                  class="material-symbols-outlined relative top-2 align-baseline transition duration-300 ease-in-out hover:scale-105"
                   style="font-size: 40px"
                 >
                   play_circle
@@ -138,13 +151,18 @@
                 <span class="material-symbols-outlined"> repeat </span>
               </button>
             </section>
-            <section class="flex w-full items-center justify-center gap-4 p-1">
-              <span id="song-duration-completed">0.00</span>
+            <section class="flex w-full items-center justify-center gap-2 p-1">
+              <span id="song-duration-completed" class="text-xs">0.00</span>
               <section
-                id="progress"
-                class="h-1 w-full cursor-pointer rounded-3xl bg-secondary"
-              ></section>
-              <span id="total-song-completed">0.00</span>
+                id="timeline"
+                class="h-1 w-full cursor-pointer justify-center rounded-3xl bg-gray"
+              >
+                <section
+                  id="progress"
+                  class="h-1 w-0 rounded-3xl bg-primary duration-100"
+                ></section>
+              </section>
+              <span id="total-song-duration" class="text-xs">0.00</span>
             </section>
           </section>
           <!-- section for volume -->

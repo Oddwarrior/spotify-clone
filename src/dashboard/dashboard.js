@@ -2,6 +2,17 @@ import { doc } from "prettier";
 import { fetchRequest } from "../api";
 import { ENDPOINT, logout, SECTIONTYPE } from "../common";
 
+const controller = new AbortController();
+const audio = new Audio();
+const volume = document.querySelector("#volume");
+const playButton = document.querySelector("#play");
+const totalSongDuration = document.querySelector("#total-song-duration");
+const songDurationCompleted = document.querySelector("#song-duration-completed");
+const songProgress = document.querySelector("#progress");
+const timeline = document.querySelector("#timeline");
+
+let progressInterval;
+
 const onProfileClick = (event) => {
     event.stopPropagation();
     const profileMenu = document.querySelector("#profile-menu");
@@ -114,18 +125,62 @@ const onTrackSelection = (id, event) => {
 
 }
 
+const updateIconsForPlay = (id) => {
+    playButton.querySelector("span").textContent = "pause_circle";
+    const playButtonInTrack = document.querySelector(`#play-track${id}`);
+    playButtonInTrack.textContent = "⏵";
+    // playButtonInTrack.innerHTML = `<span class="material-symbols-outlined ">pause </span>`
+    playButtonInTrack.setAttribute("data-play", "");
+
+}
+
+const updateIconsForPause = (id) => {
+    playButton.querySelector("span").textContent = "play_circle";
+    const playButtonInTrack = document.querySelector(`#play-track${id}`);
+    playButtonInTrack.textContent = "||";
+    // playButtonInTrack.innerHTML = `<span class="material-symbols-outlined">
+    //         play_arrow
+    //     </span`
+    playButtonInTrack.removeAttribute("data-play");
+}
+
+// const timeline = document.querySelector()
+const onAuidoMetaDataLoaded = (id) => {
+    totalSongDuration.textContent = `0:${audio.duration.toFixed(0)}`;
+    updateIconsForPlay(id);
+    // console.log(playButtonInTrack);
+}
+
+const onNowPlayingButtonClicked = (id) => {
+    if (audio.paused) {
+        audio.play();
+        updateIconsForPlay(id);
+
+    } else {
+        audio.pause();
+        updateIconsForPause(id);
+    }
+
+}
+
 const onPlayTrack = (event, { image, artistNames, name, duration, previewUrl, id }) => {
+    const buttonWithDataPlay = document.querySelector("[data-play]");
+    if (buttonWithDataPlay?.id === `play-track${id}`) {
+        if (audio.paused) {
+            audio.play();
+            updateIconsForPlay(id);
+        }
+        else {
+            audio.pause();
+            updateIconsForPause(id);
+        }
+
+    }
+    else {
+
+
+    }
     console.log(image, artistNames, name, duration, previewUrl, id);
-    //  <img id="now-playing-image" class="h-12 w-12" src="" alt="" />
-    //         <section class="flex flex-col justify-center">
-    //           <h2
-    //             id="now-playing-song"
-    //             class="te text-sm font-semibold text-primary"
-    //           >
-    //             song title
-    //           </h2>
-    //           <p id="now-playing-artists" class="text-xs">song artists</p>
-    //         </section>
     const nowPlayingSongImage = document.querySelector("#now-playing-image");
     const nowPlayingSongTitle = document.querySelector("#now-playing-song");
     const nowPlayingSongArtist = document.querySelector("#now-playing-artists");
@@ -133,6 +188,19 @@ const onPlayTrack = (event, { image, artistNames, name, duration, previewUrl, id
 
     nowPlayingSongTitle.textContent = name;
     nowPlayingSongArtist.textContent = artistNames;
+
+    // controller.abort();
+    // audio.removeEventListener("loadedmetadata", () => onAuidoMetaDataLoaded(id))
+    audio.addEventListener("loadedmetadata", () => onAuidoMetaDataLoaded(id), { signal: controller.signal })
+    playButton.addEventListener("click", () => onNowPlayingButtonClicked(id))
+    audio.src = previewUrl;
+    clearInterval(progressInterval)
+    progressInterval = setInterval(() => {
+        if (audio.paued) return
+        songDurationCompleted.textContent = `${audio.currentTime.toFixed(0) < 10 ? "0:0" + audio.currentTime.toFixed(0) : "0:" + audio.currentTime.toFixed(0)}`;
+        songProgress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+    }, 100);
+    audio.play();
 
 }
 
@@ -163,11 +231,14 @@ const loadPlaylistTracks = ({ tracks }) => {
 
         const playButton = document.createElement("button");
         playButton.id = `play-track${id}`;
-        playButton.className = ` `
-        playButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class= "invisible  w-4 h-4 play w-full absolute  left-4 top-1">
-  <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
-</svg>
-`
+        playButton.className = `invisible  w-4 h-4 play w-full absolute top-0 `
+        playButton.textContent = "⏵"
+        // playButton.innerHTML = `<span class="material-symbols-outlined invisible  w-4 h-4 play w-full absolute  left-4 top-1">
+        //     play_arrow
+        // </span`
+
+
+
         playButton.addEventListener("click", (event) => onPlayTrack(event, { image, artistNames, name, duration, previewUrl, id }))
         track.querySelector("p").appendChild(playButton);
         trackSections.appendChild(track);
@@ -177,6 +248,22 @@ const loadPlaylistTracks = ({ tracks }) => {
 
 const fillContentForPlaylist = async (playlistId) => {
     const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
+    const coverElement = document.querySelector("#cover-content");
+
+    const { name, description, images, owner, primary_color, tracks } = playlist;
+    const { artists } = tracks.items[0].track;
+    let artistNames = Array.from(artists, artist => artist.name).join(", ");
+    console.log(primary_color);
+
+    coverElement.classList.add("banner-grad-cyan")
+    coverElement.innerHTML = `
+            <img src="${images[0].url}" alt="banner image" class="h-48 w-48 shadow"/>
+        <section class="m-4 flex flex-col justify-center">
+             <p class="text-xs">PLAYLIST </p>
+            <h2 class="text-8xl capitalize font-bold py-2" id="playlist-name">${name}</h2>
+            <p id="playlist-items" class="text-sm font-semibold">${artistNames} <span class="text-secondary">and more</span></p>
+            <p class="text-xs font-semibold" id="playlis-details">${owner.display_name} . ${tracks.items.length} songs</p>
+          </section>`
     console.log(playlist);
     const pageContent = document.querySelector("#page-content");
     pageContent.innerHTML = `<header id="playlist-header" class="mx-8 py-2  border-b-[0.3px] border-secondary border-opacity-30 duration-100 z-[10] ">
@@ -261,7 +348,17 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
 
+    timeline.addEventListener("click", (e) => {
+        const timelineWidth = window.getComputedStyle(timeline).width;
+        const timeToSeek = (e.offsetX / parseInt(timelineWidth)) * audio.duration;
+        audio.currentTime = timeToSeek;
+        songProgress.style.width = `${audio.currentTime / audio.duration * 100}%`
+    }, false)
 
+    //adjust volume
+    volume.addEventListener("change", () => {
+        audio.volume = volume.value / 100;
+    })
     window.addEventListener("popstate", (event) => {
         loadSection(event.state);
     })
