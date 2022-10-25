@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Player</title>
+    <link
+      rel="shortcut icon"
+      href="../assets/Spotify_Icon_RGB_Green.png"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="../style.css" />
     <link
       rel="stylesheet"
@@ -22,11 +27,61 @@
   </head>
   <body class="h-screen bg-black text-primary">
     <main
-      class="grid-template-areas grid h-full grid-cols-[250px_1fr] grid-rows-[1fr_auto]"
+      class="grid-template-areas grid h-full grid-cols-[225px_1fr] grid-rows-[1fr_auto]"
     >
-      <aside class="sidenav">sidenav</aside>
+      <aside class="sidenav">
+        <nav class="flex flex-col gap-8 p-6">
+          <section class="w-36">
+            <a href="/">
+              <img
+                src="../assets/Spotify_Logo_RGB_White.png"
+                alt="spotify-logo"
+                class="h-10 w-full object-contain"
+              />
+            </a>
+          </section>
+          <section>
+            <ul class="flex flex-col gap-4 text-sm text-secondary">
+              <a href="/">
+                <li
+                  class="flex cursor-pointer items-center gap-2 font-semibold hover:text-primary"
+                >
+                  <span class="material-symbols-outlined">home</span>
+                  Home
+                </li>
+              </a>
+              <li
+                class="flex cursor-pointer items-center gap-2 font-semibold hover:text-primary"
+              >
+                <span class="material-symbols-outlined">search</span>Search
+              </li>
+              <li
+                class="flex cursor-pointer items-center gap-2 hover:text-primary"
+              >
+                <span class="material-symbols-outlined">
+                  library_add_check </span
+                >Your Library
+              </li>
+            </ul>
+          </section>
+          <section class="border-t border-light-black py-4" id="user-playlists">
+            <ul class="flex flex-col gap-2 text-sm text-secondary">
+              <li
+                class="flex cursor-pointer items-center gap-2 hover:text-primary"
+              >
+                Playlist 1
+              </li>
+              <li
+                class="flex cursor-pointer items-center gap-2 hover:text-primary"
+              >
+                Playlist 2
+              </li>
+            </ul>
+          </section>
+        </nav>
+      </aside>
       <article class="content relative overflow-auto bg-transparent">
-        <header class="header z-[10] px-8 py-4">
+        <header class="header sticky top-0 z-10 bg-black/[] px-8 py-4">
           <nav class="flex justify-end">
             <button
               id="user-profile-buttoon"
@@ -62,10 +117,28 @@
             </button>
             <ul
               id="profile-menu"
-              class="absolute top-12 m-1 hidden w-[200px] rounded-md bg-light-black p-1"
+              class="absolute top-14 m-1 hidden w-[200px] rounded-md bg-light-black p-1"
             >
               <li
                 class="w-full cursor-pointer rounded-sm p-2 text-sm duration-300 hover:bg-gray"
+                id="Accounts"
+              >
+                Accounts
+              </li>
+              <li
+                class="w-full cursor-pointer rounded-sm p-2 text-sm duration-300 hover:bg-gray"
+                id="Profile"
+              >
+                Profile
+              </li>
+              <li
+                class="w-full cursor-pointer rounded-sm p-2 text-sm duration-300 hover:bg-gray"
+                id="Settings"
+              >
+                Settings
+              </li>
+              <li
+                class="w-full cursor-pointer rounded-sm border-t border-gray p-2 text-sm duration-300 hover:bg-gray"
                 id="logout"
               >
                 Logout
@@ -133,28 +206,42 @@
             id="audio-control"
             class="flex flex-col items-center justify-center"
           >
-            <section
-              class="flex items-baseline justify-center gap-4 hover:text-primary"
-            >
+            <section class="flex items-baseline justify-center gap-4">
               <button id="shuffle">
-                <span class="material-symbols-rounded"> shuffle </span>
+                <span
+                  class="material-symbols-rounded transition duration-300 ease-in-out hover:text-primary"
+                >
+                  shuffle
+                </span>
               </button>
               <button id="prev">
-                <span class="material-symbols-outlined"> skip_previous </span>
+                <span
+                  class="material-symbols-outlined transition duration-300 ease-in-out hover:text-primary"
+                >
+                  skip_previous
+                </span>
               </button>
               <button id="play">
                 <span
-                  class="material-symbols-outlined relative top-2 align-baseline transition duration-300 ease-in-out hover:scale-105"
+                  class="material-symbols-outlined relative top-2 align-baseline transition duration-300 ease-in-out hover:scale-105 hover:text-primary"
                   style="font-size: 40px"
                 >
                   play_circle
                 </span>
               </button>
               <button id="next">
-                <span class="material-symbols-outlined"> skip_next </span>
+                <span
+                  class="material-symbols-outlined transition duration-300 ease-in-out hover:text-primary"
+                >
+                  skip_next
+                </span>
               </button>
               <button id="repeat">
-                <span class="material-symbols-outlined"> repeat </span>
+                <span
+                  class="material-symbols-outlined transition duration-300 ease-in-out hover:text-primary"
+                >
+                  repeat
+                </span>
               </button>
             </section>
             <section class="flex w-full items-center justify-center gap-2 p-1">

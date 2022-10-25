@@ -48,7 +48,7 @@ const loadUserProfile = async () => {
 }
 
 const onPlaylistItemClicked = (event, id) => {
-    console.log(event.target);
+    // console.log(event.target);
     const section = { type: SECTIONTYPE.PLAYLIST, playlist: id }
     history.pushState(section, "", `playlist/${id}`);
     loadSection(section);
@@ -173,7 +173,7 @@ const findCurrentTrack = () => {
     const trackId = audioControl.getAttribute("data-track-id");
     if (trackId) {
         const loadedTracks = getItemsFromLocalStorage(LOADED_TRACKS);
-        console.log(loadedTracks);
+        // console.log(loadedTracks);
         const currentTrackIndex = loadedTracks?.findIndex(trk => trk.id === trackId);
         return { currentTrackIndex, tracks: loadedTracks };
     }
@@ -275,6 +275,7 @@ const fillContentForPlaylist = async (playlistId) => {
     const playlist = await fetchRequest(`${ENDPOINT.playlist}/${playlistId}`);
     const coverElement = document.querySelector("#cover-content");
 
+
     const { name, description, images, owner, primary_color, tracks } = playlist;
     const { artists } = tracks.items[0]?.track;
     let artistNames = Array.from(artists, artist => artist.name).join(", ");
@@ -289,7 +290,7 @@ const fillContentForPlaylist = async (playlistId) => {
             <p id="playlist-items" class="text-sm font-semibold">${artistNames} <span class="text-secondary">and more</span></p>
             <p class="text-xs font-semibold" id="playlis-details">${owner.display_name} . ${tracks.items.length} songs</p>
           </section>`
-    console.log(playlist);
+    // console.log(playlist);
     const pageContent = document.querySelector("#page-content");
     pageContent.innerHTML = `<header id="playlist-header" class="mx-8 py-2  border-b-[0.3px] border-secondary border-opacity-30 duration-100 z-[10] ">
             <nav class= "py-2">
@@ -316,20 +317,16 @@ const fillContentForPlaylist = async (playlistId) => {
 const onContentScroll = (event) => {
     const { scrollTop } = event.target;
     const header = document.querySelector(".header");
+    const coverElement = document.querySelector("#cover-content");
+    const totalHeight = coverElement.offsetHeight;
+    const coveropacity = 100 - (scrollTop >= totalHeight ? 100 : ((scrollTop / totalHeight) * 100));
+    const headerOpacity = scrollTop >= header.offsetHeight ? 100 : ((scrollTop / totalHeight) * 100);
+    coverElement.style.opacity = `${coveropacity}%`;
+    header.style.background = `rgba(0 0 0 / ${headerOpacity}%)`;
 
-    if (scrollTop >= header.offsetHeight) {
-        header.classList.add("sticky", "top-0", "bg-black");
-        header.classList.remove("bg-transperent");
-
-    } else {
-        header.classList.remove("sticky", "top-0", "bg-black");
-        header.classList.add("bg-transperent");
-
-    }
     if (history.state.type === SECTIONTYPE.PLAYLIST) {
-        const coverElement = document.querySelector("#cover-content");
         const playlistHeader = document.querySelector("#playlist-header");
-        if (scrollTop >= (coverElement.offsetHeight - header.offsetHeight)) {
+        if (coveropacity <= 35) {
             playlistHeader.classList.add("sticky", "bg-black-secondary", "px-8");
             playlistHeader.classList.remove("mx-8");
             playlistHeader.style.top = `${header.offsetHeight - 1}px`
@@ -355,6 +352,25 @@ const loadSection = (section) => {
     document.querySelector(".content").addEventListener("scroll", onContentScroll)
 }
 
+const onUserPlaylistClicked = (id) => {
+    const section = { type: SECTIONTYPE.PLAYLIST, playlist: id }
+    history.pushState(section, "", `/dashboard/playlist/${id}`);
+    loadSection(section);
+}
+const loadUserPlaylists = async () => {
+    const playlists = await fetchRequest(ENDPOINT.userPlaylist);
+    console.log(playlists);
+    const userPlayListSection = document.querySelector("#user-playlists > ul");
+    userPlayListSection.innerHTML = "";
+    for (let { name, id } of playlists.items) {
+        const li = document.createElement("li");
+        li.textContent = name;
+        li.className = `flex cursor-pointer items-center gap-2 hover:text-primary`;
+        li.addEventListener("click", () => onUserPlaylistClicked(id));
+        userPlayListSection.appendChild(li);
+    }
+}
+
 //main function
 document.addEventListener("DOMContentLoaded", async () => {
     const volume = document.querySelector("#volume");
@@ -368,6 +384,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let progressInterval;
 
     ({ displayName } = await loadUserProfile());
+    loadUserPlaylists();
     const section = { type: SECTIONTYPE.DASHBOARD };
     // const section = { type: SECTIONTYPE.PLAYLIST, playlist: "37i9dQZF1DX4dyzvuaRJ0n" }
     // history.pushState(section, "", `/dashboard/playlist/${section.playlist}`);
