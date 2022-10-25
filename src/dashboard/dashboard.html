@@ -78,7 +78,6 @@
           id="cover-content"
           class="absolute top-0 -z-[1] grid h-72 w-full grid-cols-[auto_1fr] content-center bg-gradient-to-b from-light-black to-black-base p-4 px-8"
         >
-          <!-- <h1 class="text-6xl font-semibold">Good Morning</h1> -->
           <section class="">
             <img
               src=""
@@ -112,7 +111,10 @@
       >
         <section class="line grid grid-cols-[1fr_2fr_1fr] gap-4">
           <!-- section for now playing somg title -->
-          <section class="grid grid-cols-[auto_1fr] place-content-center gap-4">
+          <section
+            id="song-info"
+            class="invisible grid grid-cols-[auto_1fr] place-content-center gap-4"
+          >
             <img id="now-playing-image" class="h-12 w-12" src="" alt="" />
             <section class="flex flex-col justify-center">
               <h2
