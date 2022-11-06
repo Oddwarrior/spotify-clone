@@ -286,7 +286,7 @@ const fillContentForPlaylist = async (playlistId) => {
             <img src="${images[0].url}" alt="banner image" class="h-48 w-48 shadow"/>
         <section class="m-4 flex flex-col justify-center">
              <p class="text-xs">PLAYLIST </p>
-            <h2 class="text-${name.length > 15 ? 4 : 8}xl capitalize font-bold py-2" id="playlist-name">${name}</h2>
+            <h2 class="text-${name.length > 15 ? 4 : 6}xl capitalize font-bold py-2" id="playlist-name">${name}</h2>
             <p id="playlist-items" class="text-sm font-semibold">${artistNames} <span class="text-secondary">and more</span></p>
             <p class="text-xs font-semibold" id="playlis-details">${owner.display_name} . ${tracks.items.length} songs</p>
           </section>`

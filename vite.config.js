@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from 'vite'
+import { resolve } from 'path'
 
 export default defineConfig(({ command, mode }) => {
   // Load env file based on `mode` in the current working directory.
@@ -9,6 +10,16 @@ export default defineConfig(({ command, mode }) => {
     define: {
       __APP_ENV__: env.APP_ENV
     },
-    root:"src"
+    root: "src",
+    build: {
+      outDir: "../dist",
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'src/index.html'),
+          dashboard: resolve(__dirname, 'src/dashboard/dashboard.html'),
+          login: resolve(__dirname, 'src/login/login.html')
+        }
+      }
+    }
   }
 })
