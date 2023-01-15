@@ -3,4 +3,4 @@ A recreation of the Spotify web player using JavaScript, HTML, and CSS and Spoti
 
 # link
 https://spotify-clone-sj.netlify.app/login/login.html
-(Will not word properly on mobile devices)
+(may not word properly on mobile devices)
